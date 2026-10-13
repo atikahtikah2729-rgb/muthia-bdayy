@@ -442,6 +442,20 @@
         }
 
         let isMusicPlaying = false;
+        
+        function playBackgroundMusic() {
+            const audio = document.getElementById('bg-audio');
+            const btn = document.getElementById('music-btn');
+            if (!isMusicPlaying) {
+                audio.play().then(() => {
+                    isMusicPlaying = true;
+                    btn.innerHTML = "🔊 Mute Music";
+                }).catch(e => {
+                    console.log("Autoplay blocked or waiting user interaction", e);
+                });
+            }
+        }
+
         function toggleMusic() {
             const audio = document.getElementById('bg-audio');
             const btn = document.getElementById('music-btn');
@@ -451,7 +465,6 @@
                     isMusicPlaying = true;
                 }).catch(e => {
                     console.log("Audio play error:", e);
-                    alert("Gagal memutar musik. Coba klik tombol Play Music sekali lagi ya!");
                 });
             } else {
                 audio.pause();
@@ -471,6 +484,7 @@
         }
 
         function goToScene(sceneNum) {
+            playBackgroundMusic(); // Otomatis menyalakan musik saat berpindah scene/klik tombol
             document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
             document.getElementById(`scene-${sceneNum}`).classList.add('active');
             updateProgress(sceneNum);
@@ -482,6 +496,7 @@
         }
 
         function handleScene1(choice) {
+            playBackgroundMusic(); // Otomatis menyalakan musik saat tombol pertama diklik
             const fb = document.getElementById('scene1-feedback');
             fb.style.display = 'block';
             if (choice === 'see') {
@@ -496,12 +511,14 @@
         }
 
         function revealName() {
+            playBackgroundMusic();
             document.getElementById('reveal-prompt').style.display = 'none';
             document.getElementById('reveal-content').style.display = 'block';
             triggerConfetti();
         }
 
         function handleAgeChoice(choice) {
+            playBackgroundMusic();
             const fb = document.getElementById('age-feedback');
             fb.style.display = 'block';
             if (choice === 'older') {
@@ -515,6 +532,7 @@
 
         let currentCP = 1;
         function handleCheckpoint(qNum, answerText) {
+            playBackgroundMusic();
             const fb = document.getElementById('cp-feedback');
             fb.style.display = 'block';
             fb.innerHTML = `Selected: "${answerText}" — Noted! ✨`;
@@ -557,6 +575,7 @@
 
         let candleBlown = false;
         function blowCandle() {
+            playBackgroundMusic();
             if (candleBlown) return;
             candleBlown = true;
             document.getElementById('flame').innerHTML = '💨';
@@ -568,6 +587,7 @@
         }
 
         function showExtraSurprise() {
+            playBackgroundMusic();
             document.getElementById('extra-surprise-box').style.display = 'block';
             document.getElementById('final-signature').style.display = 'block';
             triggerConfetti();
@@ -575,10 +595,12 @@
         }
 
         function showFinalPlayful() {
+            playBackgroundMusic();
             document.getElementById('final-playful-msg').style.display = 'block';
         }
 
         function restartAdventure() {
+            playBackgroundMusic();
             messageTyped = false;
             candleBlown = false;
             document.getElementById('typed-msg-1').innerHTML = '';
